@@ -32,35 +32,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: ListView.builder(
         itemCount: options.length,
-        itemBuilder: (context, index) => Card(
-          elevation: 3,
-          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Row(
-            children: [
-              EmpanadaTitle( title: options.keys.elementAt(index)),
-              const Expanded(child: SizedBox()),
-              RoundedIconButton(
-                icon: Icons.remove,
-                iconSize: 30, 
-                onPress: () { 
-                  log("RoundedIconButton REMOVE"); 
-                  options[options.keys.elementAt(index)] = options.values.elementAt(index) - 1;
-                  setState((){ });
-                },
-              ),
-              EmpanadaTitle(title: options.values.elementAt(index).toString()),
-              RoundedIconButton(
-                icon: Icons.add,
-                iconSize: 30, 
-                onPress: () { 
-                  log("RoundedIconButton ADD"); 
-                  options[options.keys.elementAt(index)] = options.values.elementAt(index) + 1;
-                  setState((){ });
-                  },
-              ),
-            ],
+        itemBuilder: (context, index) => EmpanadaItem( 
+          options: options, 
+          index: index,
+          incrementCounter: (int) => incrementCounter(int),
+          decrementCounter: (int) => decrementCounter(int),
           ),
-        ), 
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppTheme.primaryColor,
@@ -84,6 +61,18 @@ class _HomeScreenState extends State<HomeScreen> {
         child: const Icon(Icons.add),
       ),
     );
+  }
+
+  void incrementCounter(int index){
+    log("RoundedIconButton ADD"); 
+    options[options.keys.elementAt(index)] = options.values.elementAt(index) + 1;
+    setState((){ });
+  }
+
+  void decrementCounter(int index){
+    log("RoundedIconButton REMOVE"); 
+    options[options.keys.elementAt(index)] = options.values.elementAt(index) - 1;
+    setState((){ });
   }
 
   Future<String?> showCustomDialogAndroid(BuildContext context) async {
